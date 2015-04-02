@@ -61,6 +61,11 @@ These settings are:</p>
       <li>If you want to be notified of when a sitemap is generated, enter an Email address here (and ensure your Mura Email settings are configured properly)</li>
     </ul>
   </li>
+  <li><strong>Use SSL</strong>
+    <ul>
+      <li>The generated url locations will contain https:// instead of http://</li>
+    </ul>
+  </li>
 </ul>
 <h4>How It Works </h4>
 <p>Meld Google Sitemaps creates a scheduled task that will move through your Mura CMS pages and add pages to the sitemap.xml file according to the settings set in the

@@ -59,12 +59,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		<cfset sitemapsObject.getAllValues() />
 
 		<cfparam name="rc.enabled" default="0">		
+		<cfparam name="rc.forcessl" default="0">		
 
 		<cfset sitemapsObject.setValue('Location',rc.location ) />
 		<cfset sitemapsObject.setValue('Enabled',rc.enabled ) />
 		<cfset sitemapsObject.setValue('Frequency',rc.frequency ) />
 		<cfset sitemapsObject.setValue('Email',rc.email ) />
 		<cfset sitemapsObject.setValue('TimeOfDay',timeOfDay ) />
+		<cfset sitemapsObject.setValue('ForceSSL',rc.forcessl ) />
 		<cfset sitemapsObject.save() />
 
 		<cfif rc.enabled>
@@ -109,6 +111,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 			<cfset sitemapsObject.setValue('Email',rc.$.siteConfig('contactEmail')) />
 			<cfset sitemapsObject.setValue('DateLastCreate',createODBCDateTime(dateAdd('yyyy',-10,now()))) />
 			<cfset sitemapsObject.setValue('TimeOfDay',createDateTime(2011,1,1,2,0,0) ) />
+			<cfset sitemapsObject.setValue('ForceSSL',0) />
 			<cfset sitemapsObject.save() />
 		</cfif>
 

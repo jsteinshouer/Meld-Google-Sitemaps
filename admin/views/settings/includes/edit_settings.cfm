@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	</cfif>
 	<cfset local.timeofday_hour		= timeformat( local.timeofday,"HH" ) />
 	<cfset local.timeofday_minute	= datepart("n", local.timeofday ) />
+	
 </cfsilent>
 <cfoutput>
 	<ul class="form">
@@ -75,6 +76,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		</label>
 		<input class="text" type="text" name="email" id="email" value="#form.email#" size="150" maxlength="150" data-required="false"/>
 		<p><small>#rc.mmRBF.key('emailnotifications','note')#</small></p>
+	</li>
+	<li>
+		<label for="forcessl">
+			<input type="checkbox" name="forcessl" id="forcessl" value="1" <cfif form.forcessl>CHECKED</cfif>/>
+			#rc.mmRBF.key('forcessl')#
+		</label>
 	</li>
 	</ul>
 </cfoutput>

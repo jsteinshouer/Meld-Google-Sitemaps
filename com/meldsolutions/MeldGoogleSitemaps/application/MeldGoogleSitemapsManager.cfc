@@ -43,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 	<cffunction name="getSitemap" returntype="string" access="public" output="false">
 		<cfargument name="$" type="any" required="true" />
 		<cfargument name="siteID" type="string" required="false" />
+		<cfargument name="useSSL" type="boolean" default="false" />
 		
 		<cfset var useSiteID	= iif( structKeyExists(arguments,"siteID"),de(arguments.siteID),de($.event('siteID')) ) />
 		<cfset var qAtts		= "" />
@@ -56,9 +57,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		<cfset var sitemapXML 	= XmlNew(true)>
 		<cfset var exemptHash	= StructNew()>
 		<cfset var valueHash	= StructNew()>
+		<cfset var protocol = "http">
 		
 		<cfif useSiteID neq arguments.$.event().getValue('siteid')>
 			<cfset arguments.$ = application.serviceFactory.getBean('muraScope').init(useSiteID) />
+		</cfif>
+
+		<cfif arguments.useSSL>
+			<cfset protocol = "https">
 		</cfif>
 
 <cfsavecontent variable="strXML"><cfoutput><?xml version="1.0" encoding="UTF-8"?>
@@ -204,7 +210,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 			<cfif isExempt neq true>
 <cfsavecontent variable="strXMLBlock"><cfoutput>
-	<url><loc>http://#arguments.$.getBean('settingsManager').getSite(arguments.siteID).getDomain()##arguments.$.globalConfig().getContext()##arguments.$.getContentRenderer().getURLStem(useSiteID,qList.filename)#</loc><lastmod>#dateformat(lastupdate,"yyyy-mm-dd")#</lastmod><changefreq>#sValues.changefrequency#</changefreq><priority>#sValues.priority#</priority></url></cfoutput></cfsavecontent>
+	<url><loc>#protocol#://#arguments.$.getBean('settingsManager').getSite(arguments.siteID).getDomain()##arguments.$.globalConfig().getContext()##arguments.$.getContentRenderer().getURLStem(useSiteID,qList.filename)#</loc><lastmod>#dateformat(lastupdate,"yyyy-mm-dd")#</lastmod><changefreq>#sValues.changefrequency#</changefreq><priority>#sValues.priority#</priority></url></cfoutput></cfsavecontent>
 				<cfset strXML = strXML & strXMLBlock />
 			</cfif>
 		</cfloop>

@@ -265,6 +265,11 @@
 				label="TimeOfDay"
 				type="TextBox"
 				validation="Date" />
+			<attribute name="ForceSSL"
+				label="ForceSSL"
+				type="TextBox"
+				validation="Numeric"
+				defaultValue="0" />
 		</attributeset>
 	</extension>
 </extensions>

@@ -32,11 +32,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 		<cfset var fileName				= "" />
 		<cfset var fileURL				= "" />
 		<cfset var sitemapManager		= getBeanFactory().getBean('MeldGoogleSitemapsManager') />
-		<cfset var sitemapXML			= sitemapManager.getSitemap(rc.$,site) />
 
 		<cfset sitemapsObject.setID( site ) />
 		<cfset sitemapsObject.setModuleID( rc.pluginConfig.getModuleID() ) />
 		<cfset sitemapsObject.getAllValues() />
+
+		<cfset var forceSSL 			= sitemapsObject.getValue("forceSSL")>
+		<cfset var sitemapXML			= sitemapManager.getSitemap(rc.$,site,forceSSL) />
+		<cfset var protocol 			= "http">
+
+		<cfif forceSSL>
+			<cfset protocol = "https">
+		</cfif>
 
 		<cfset sitemapsObject.setValue('DateLastCreate',now()) />
 		<!--- extend object issue, must set this --->
@@ -45,10 +52,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 		<cfif sitemapsObject.getValue('location') eq "web">
 			<cfset filename = "#expandPath(application.configBean.getContext() & '/')#sitemap.xml" />
-			<cfset fileURL	= "http://#siteConfig.getDomain()##rc.$.globalConfig().getContext()#/sitemap.xml" />
+			<cfset fileURL	= "#protocol#://#siteConfig.getDomain()##rc.$.globalConfig().getContext()#/sitemap.xml" />
 		<cfelse>
 			<cfset filename ="#expandPath(application.configBean.getContext() & '/')##site#/sitemap.xml" />
-			<cfset fileURL	= "http://#siteConfig.getDomain()##rc.$.globalConfig().getContext()#/#site#/sitemap.xml" />
+			<cfset fileURL	= "#protocol#://#siteConfig.getDomain()##rc.$.globalConfig().getContext()#/#site#/sitemap.xml" />
 		</cfif>
 		<cftry>
 			<cffile action="write" file="#filename#" output="#sitemapXML#" />
